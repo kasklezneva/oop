@@ -1,0 +1,236 @@
+#include <iostream>
+
+using namespace std;
+
+class TimePoint {
+public:
+	int hour, minute, second, a, b;
+	float c;
+
+
+	void print_time (TimePoint A) {
+		std::cout << A.hour << ':' << A.minute << ':' << A.second << '\n';
+	}
+
+	TimePoint sum (TimePoint A, TimePoint B) {
+		a = A.hour + B.hour;
+		b = A.minute + B.minute;
+		c = A.second + B.second;
+		TimePoint result {a, b, c};
+		return result;
+	}
+
+	int time_in_seconds (TimePoint A) {
+        a = A.hour * 3600;
+        b = A.minute * 60;
+        c = A.second;
+        int sec = a + b + c;
+        return sec;
+	}
+
+	float time_in_minutes (TimePoint A) {
+        a = A.hour * 60;
+        b = A.minute;
+        if (c<30) c = A.second/60;
+        else c=A.second/60+1;
+        float minutes = a + b + c;
+        return minutes;
+	}
+
+	TimePoint from_seconds (TimePoint A) {
+        int a = A.second/3600;
+        int b = (A.second - a*3600)/60;
+        int c = (A.second - a*3600)%60;
+        TimePoint result {a, b, c};
+        return result;
+	}
+
+    TimePoint from_minutes (TimePoint A) {
+        int a = A.minute/60;
+        int b = A.minute%60;
+        int c = 0;
+        TimePoint result {a, b, c};
+        return result;
+	}
+
+	int subt (TimePoint A, TimePoint B) {
+        int s = A.time_in_seconds(A)- B.time_in_seconds(B);
+        return s;
+	}
+
+	int sum_sec (TimePoint A, TimePoint B) {
+	    int s = B.second;
+        int ss = A.time_in_seconds(A) + s;
+        return ss;
+	}
+
+	int subt_sec (TimePoint A, TimePoint B) {
+	    int s = B.second;
+        int ss = A.time_in_seconds(A) - s;
+        return ss;
+	}
+
+};
+
+int main() {
+	setlocale(LC_ALL, "Russian");
+	int n = 0;
+	TimePoint time1{ 0, 0 };
+	while (1) {
+		std::cout << "1. Сложить два момента времени" << "\n" << "2. Перевод в секунды" << "\n" << "3. Разница между двумя моментами времени" <<
+		"\n" << "4. Сложение момента времени и заданного количества секунд" << "\n" << "5. Вычитание секунд" << "\n" <<
+		"6. Перевод из секунд в формат час:минута:секунда" << "\n" << "7. Перевод в минуты" << "\n" << "8. Перевод из минут в формат час:минута:секунда" <<
+		"\n" << "9. Сравнение двух моментов времени" << "\n" << "10. Сравнение двух моментов, во сколько раз один больше или меньше другого" << "\n";
+		std::cin >> n;
+
+		if (n == 1) {
+			TimePoint time2{ 0,0 };
+			std::cout << "Введите час, минуту и секунду момента времени: ";
+			std::cin >> time1.hour >> time1.minute >> time1.second;
+			if ((time1.minute < 0) or (time1.minute > 60) or (time1.second < 0) or (time1.second > 60)) {
+				std::cout << "Введен неправильный момент времени";
+			}
+			time1.print_time (time1);
+			std::cout << "Введите второй момент времени: ";
+			std::cin >> time2.hour >> time2.minute >> time2.second;
+			if ((time2.minute < 0) or (time2.minute > 60) or (time2.second < 0) or (time2.second > 60)) {
+				std::cout << "Введен неправильный момент времени";
+			}
+			time1.print_time (time2);
+			std::cout << "Сумма моментов времени в секундах: ";
+			int p = time1.time_in_seconds (time1) + time1.time_in_seconds (time2);
+			std::cout << p << "\n";
+
+		}
+		if (n == 2) {
+            std::cout << "Введите час, минуту и секунду момента времени: ";
+			std::cin >> time1.hour >> time1.minute >> time1.second;
+			if ((time1.minute < 0) or (time1.minute > 60) or (time1.second < 0) or (time1.second > 60)) {
+				std::cout << "Введен неправильный момент времени: ";
+			}
+			time1.print_time (time1);
+
+		}
+        if (n == 3) {
+            TimePoint time2{ 0,0 };
+            std::cout << "Введите час, минуту и секунду момента времени: ";
+			std::cin >> time1.hour >> time1.minute >> time1.second;
+			if ((time1.minute < 0) or (time1.minute > 60) or (time1.second < 0) or (time1.second > 60)) {
+				std::cout << "Введен неправильный момент времени";
+			}
+			time1.print_time (time1);
+			std::cout << "Введите второй момент времени: ";
+			std::cin >> time2.hour >> time2.minute >> time2.second;
+			if ((time2.minute < 0) or (time2.minute > 60) or (time2.second < 0) or (time2.second > 60)) {
+				std::cout << "Введен неправильный момент времени";
+			}
+			time1.print_time (time2);
+
+			if (time1.time_in_seconds (time1) < time1.time_in_seconds (time2))
+                std::cout << "Вычитание невозможно: первый момент времени меньше второго" << "\n";
+			else{
+			std::cout << "Разница моментов времени в секундах: ";
+			std::cout << time1.subt (time1, time2) << '\n';
+			}
+        }
+        if (n == 4) {
+            TimePoint time2{ 0,0 };
+            std::cout << "Введите час, минуту и секунду момента времени: ";
+			std::cin >> time1.hour >> time1.minute >> time1.second;
+			if ((time1.minute < 0) or (time1.minute > 60) or (time1.second < 0) or (time1.second > 60)) {
+				std::cout << "Введен неправильный момент времени";
+			}
+			time1.print_time (time1);
+			std::cout << "Введите количество секунд: ";
+			std::cin >> time2.second;
+			std::cout << "Сумма секунд: ";
+			std::cout << time1.sum_sec (time1, time2) << '\n';
+        }
+        if (n == 5) {
+            TimePoint time2{ 0,0 };
+            std::cout << "Введите час, минуту и секунду момента времени: ";
+			std::cin >> time1.hour >> time1.minute >> time1.second;
+			if ((time1.minute < 0) or (time1.minute > 60) or (time1.second < 0) or (time1.second > 60)) {
+				std::cout << "Введен неправильный момент времени";
+			}
+			time1.print_time (time1);
+			std::cout << "Введите количество секунд: ";
+			std::cin >> time2.second;
+			std::cout << "Разница секунд: ";
+			std::cout << time1.subt_sec (time1, time2) << '\n';
+        }
+        if (n == 6) {
+            std::cout << "Введите время в секундах: ";
+            std::cin >> time1.second;
+            std::cout << "Перевод в формат час:минута:секунда: ";
+            time1.print_time (time1.from_seconds(time1));
+        }
+        if (n == 7) {
+            std::cout << "Введите час, минуту и секунду момента времени: ";
+			std::cin >> time1.hour >> time1.minute >> time1.second;
+			if ((time1.minute < 0) or (time1.minute > 60) or (time1.second < 0) or (time1.second > 60)) {
+				std::cout << "Введен неправильный момент времени";
+			}
+			time1.print_time (time1);
+			std::cout << "Момент времени в минутах: ";
+			std::cout << time1.time_in_minutes (time1) << '\n';
+		}
+        if (n == 8) {
+            std::cout << "Введите время в минутах: ";
+            std::cin >> time1.minute;
+            std::cout << "Перевод в формат час:минута:секунда: ";
+            time1.print_time (time1.from_minutes(time1));
+        }
+        if (n == 9) {
+            TimePoint time2{ 0,0 };
+            std::cout << "Введите час, минуту и секунду момента времени: ";
+			std::cin >> time1.hour >> time1.minute >> time1.second;
+			if ((time1.minute < 0) or (time1.minute > 60) or (time1.second < 0) or (time1.second > 60)) {
+				std::cout << "Введен неправильный момент времени";
+			}
+			time1.print_time (time1);
+            std::cout << "Введите второй момент времени: ";
+			std::cin >> time2.hour >> time2.minute >> time2.second;
+			if ((time2.minute < 0) or (time2.minute > 60) or (time2.second < 0) or (time2.second > 60)) {
+				std::cout << "Введен неправильный момент времени";
+			}
+			time1.print_time (time2);
+			if (time1.time_in_seconds (time1) > time1.time_in_seconds (time2)) {
+                std::cout << "Первый момент времени больше второго" << "\n";
+			}
+            if (time1.time_in_seconds (time1) < time1.time_in_seconds (time2)) {
+                std::cout << "Первый момент времени меньше второго" << "\n";
+			}
+        }
+        if (n == 10) {
+            TimePoint time2{ 0,0 };
+            std::cout << "Введите час, минуту и секунду момента времени: ";
+			std::cin >> time1.hour >> time1.minute >> time1.second;
+			if ((time1.minute < 0) or (time1.minute > 60) or (time1.second < 0) or (time1.second > 60)) {
+				std::cout << "Введен неправильный момент времени";
+			}
+			time1.print_time (time1);
+            std::cout << "Введите второй момент времени: ";
+			std::cin >> time2.hour >> time2.minute >> time2.second;
+			if ((time2.minute < 0) or (time2.minute > 60) or (time2.second < 0) or (time2.second > 60)) {
+				std::cout << "Введен неправильный момент времени";
+			}
+			time1.print_time (time2);
+			if (time1.time_in_seconds (time1) > time1.time_in_seconds (time2)) {
+                std::cout << "Первый момент времени больше второго в ";
+                float q=time1.time_in_seconds (time1), w=time1.time_in_seconds (time2), e;
+                e = q / w;
+                std::cout << e << "\n";
+			}
+            if (time1.time_in_seconds (time1) < time1.time_in_seconds (time2)) {
+                std::cout << "Первый момент времени меньше второго" << "\n";
+                float q=time1.time_in_seconds (time1), w=time1.time_in_seconds (time2), e;
+                e = q / w;
+                std::cout << e << "\n";
+			}
+        }
+
+
+	}
+	return 0;
+}
